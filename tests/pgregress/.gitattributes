@@ -1,0 +1,8 @@
+# vendored from postgres at the tag in PINNED. -text keeps upstream bytes
+# exactly whatever the root file says: expected/name.out holds a literal
+# carriage return that eol normalization would rewrite.
+COPYRIGHT -text linguist-vendored
+parallel_schedule -text linguist-vendored
+sql/** -text linguist-vendored
+expected/** -text linguist-vendored
+data/** -text linguist-vendored

@@ -1,0 +1,7 @@
+tag: REL_19_0
+commit: 5c839a2a08b9b87a349be97371fac6c5a2873b10
+source: https://github.com/postgres/postgres/tree/REL_19_0/src/test/regress
+license: https://github.com/postgres/postgres/blob/REL_19_0/COPYRIGHT
+release tarball: https://ftp.postgresql.org/pub/source/v19.0/postgresql-19.0.tar.gz
+release tarball sha256: 763a0da85d78278db309b7fdc63dc7f980b256507a97384f074a6c78dd6d926a
+paths: src/test/regress/{sql,expected,data,parallel_schedule} and COPYRIGHT; input/, output/ and serial_schedule do not exist at this tag
