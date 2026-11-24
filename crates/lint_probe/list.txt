@@ -1,0 +1,74 @@
+methods|std::time::Instant::now|use Env::now (virtual time in sim)
+methods|std::time::Instant::elapsed|reads the real clock, use Env::now
+methods|std::time::SystemTime::now|use Env::wall (skewed in sim)
+methods|std::time::SystemTime::elapsed|reads the real clock, use Env::wall
+methods|std::thread::spawn|use Env::spawn
+methods|std::thread::scope|use Env::spawn
+methods|std::thread::Builder::spawn|use Env::spawn
+methods|std::thread::Builder::spawn_scoped|use Env::spawn
+methods|std::thread::sleep|use Env::sleep
+methods|std::thread::yield_now|use tr_env::yield_now
+methods|std::thread::park|blocks the sim executor
+methods|std::thread::park_timeout|blocks the sim executor
+methods|std::thread::current|thread identity differs between sim and prod
+methods|std::thread::available_parallelism|host dependent, take it from config
+methods|std::env::var|config comes from the tr binary, not the environment
+methods|std::env::var_os|config comes from the tr binary
+methods|std::env::vars|config comes from the tr binary
+methods|std::env::vars_os|config comes from the tr binary
+methods|std::env::args|config comes from the tr binary
+methods|std::env::args_os|config comes from the tr binary
+methods|std::env::current_dir|paths come from Env::fs
+methods|std::env::temp_dir|paths come from Env::fs
+methods|std::env::home_dir|host dependent
+methods|std::env::current_exe|host dependent
+methods|std::process::exit|a node stops by returning, the sim owns crashes
+methods|std::process::abort|a node stops by returning, the sim owns crashes
+methods|std::process::id|host dependent
+methods|std::io::stdin|no terminal io in core crates, use tracing
+methods|std::io::stdout|no terminal io in core crates, use tracing
+methods|std::io::stderr|no terminal io in core crates, use tracing
+methods|std::fs::read|use Env::fs
+methods|std::fs::read_to_string|use Env::fs
+methods|std::fs::write|use Env::fs
+methods|std::fs::read_dir|use Env::fs
+methods|std::fs::create_dir|use Env::fs
+methods|std::fs::create_dir_all|use Env::fs
+methods|std::fs::remove_file|use Env::fs
+methods|std::fs::remove_dir|use Env::fs
+methods|std::fs::remove_dir_all|use Env::fs
+methods|std::fs::rename|use Env::fs
+methods|std::fs::copy|use Env::fs
+methods|std::fs::metadata|use Env::fs
+methods|std::fs::symlink_metadata|use Env::fs
+methods|std::fs::canonicalize|use Env::fs
+methods|std::fs::hard_link|use Env::fs
+methods|std::fs::exists|use Env::fs
+methods|std::net::ToSocketAddrs::to_socket_addrs|dns lookup, use Env::net
+methods|std::sync::mpsc::channel|blocking recv deadlocks the sim executor, use tr_env::sync::mpsc
+methods|std::sync::mpsc::sync_channel|blocking, use tr_env::sync::mpsc
+methods|std::sync::Arc::as_ptr|addresses differ between runs, never hash or order by them
+methods|std::rc::Rc::as_ptr|addresses differ between runs
+methods|std::ptr::hash|addresses differ between runs
+types|std::time::Instant|use tr_env::Instant
+types|std::time::SystemTime|use tr_env::WallTime
+types|std::collections::HashMap|random iteration order, use tr_env::collections::HashMap
+types|std::collections::HashSet|random iteration order, use tr_env::collections::HashSet
+types|std::hash::RandomState|seeded from the os, use tr_env::collections::DetState
+types|std::hash::DefaultHasher|algorithm unspecified across releases, use tr_env::collections::DetState
+types|std::fs::File|use Env::fs
+types|std::fs::OpenOptions|use Env::fs
+types|std::net::TcpStream|use Env::net
+types|std::net::TcpListener|use Env::net
+types|std::net::UdpSocket|use Env::net
+types|std::sync::Condvar|blocks the sim executor
+types|std::sync::Barrier|blocks the sim executor
+types|std::sync::OnceLock|process-global state is shared by every simulated node
+types|std::sync::LazyLock|process-global state is shared by every simulated node
+types|std::thread::JoinHandle|use tr_env::JoinHandle
+macros|std::thread_local|per-thread state is shared by every simulated node
+macros|std::println|use tracing
+macros|std::print|use tracing
+macros|std::eprintln|use tracing
+macros|std::eprint|use tracing
+macros|std::dbg|use tracing

@@ -1,0 +1,16 @@
+[package]
+name = "lint_probe"
+version = "0.0.0"
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[features]
+# enable to compile every banned call so clippy reports them
+violations = []
+
+[dependencies]
+tr_env.workspace = true
+
+[lints]
+workspace = true

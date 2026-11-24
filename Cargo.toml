@@ -1,0 +1,17 @@
+[workspace]
+resolver = "3"
+members = ["crates/tr_env", "crates/tr_sim", "crates/lint_probe"]
+
+[workspace.package]
+edition = "2024"
+license = "MIT OR Apache-2.0"
+publish = false
+
+[workspace.dependencies]
+xxhash-rust = { version = "0.8", features = ["xxh3"] }
+tr_env = { path = "crates/tr_env" }
+
+[workspace.lints.clippy]
+await_holding_lock = "deny"
+await_holding_refcell_ref = "deny"
+let_underscore_future = "deny"

@@ -1,0 +1,296 @@
+[[disallowed-methods]]
+path = "std::time::Instant::now"
+reason = "use Env::now (virtual time in sim)"
+
+[[disallowed-methods]]
+path = "std::time::Instant::elapsed"
+reason = "reads the real clock, use Env::now"
+
+[[disallowed-methods]]
+path = "std::time::SystemTime::now"
+reason = "use Env::wall (skewed in sim)"
+
+[[disallowed-methods]]
+path = "std::time::SystemTime::elapsed"
+reason = "reads the real clock, use Env::wall"
+
+[[disallowed-methods]]
+path = "std::thread::spawn"
+reason = "use Env::spawn"
+
+[[disallowed-methods]]
+path = "std::thread::scope"
+reason = "use Env::spawn"
+
+[[disallowed-methods]]
+path = "std::thread::Builder::spawn"
+reason = "use Env::spawn"
+
+[[disallowed-methods]]
+path = "std::thread::Builder::spawn_scoped"
+reason = "use Env::spawn"
+
+[[disallowed-methods]]
+path = "std::thread::sleep"
+reason = "use Env::sleep"
+
+[[disallowed-methods]]
+path = "std::thread::yield_now"
+reason = "use tr_env::yield_now"
+
+[[disallowed-methods]]
+path = "std::thread::park"
+reason = "blocks the sim executor"
+
+[[disallowed-methods]]
+path = "std::thread::park_timeout"
+reason = "blocks the sim executor"
+
+[[disallowed-methods]]
+path = "std::thread::current"
+reason = "thread identity differs between sim and prod"
+
+[[disallowed-methods]]
+path = "std::thread::available_parallelism"
+reason = "host dependent, take it from config"
+
+[[disallowed-methods]]
+path = "std::env::var"
+reason = "config comes from the tr binary, not the environment"
+
+[[disallowed-methods]]
+path = "std::env::var_os"
+reason = "config comes from the tr binary"
+
+[[disallowed-methods]]
+path = "std::env::vars"
+reason = "config comes from the tr binary"
+
+[[disallowed-methods]]
+path = "std::env::vars_os"
+reason = "config comes from the tr binary"
+
+[[disallowed-methods]]
+path = "std::env::args"
+reason = "config comes from the tr binary"
+
+[[disallowed-methods]]
+path = "std::env::args_os"
+reason = "config comes from the tr binary"
+
+[[disallowed-methods]]
+path = "std::env::current_dir"
+reason = "paths come from Env::fs"
+
+[[disallowed-methods]]
+path = "std::env::temp_dir"
+reason = "paths come from Env::fs"
+
+[[disallowed-methods]]
+path = "std::env::home_dir"
+reason = "host dependent"
+
+[[disallowed-methods]]
+path = "std::env::current_exe"
+reason = "host dependent"
+
+[[disallowed-methods]]
+path = "std::process::exit"
+reason = "a node stops by returning, the sim owns crashes"
+
+[[disallowed-methods]]
+path = "std::process::abort"
+reason = "a node stops by returning, the sim owns crashes"
+
+[[disallowed-methods]]
+path = "std::process::id"
+reason = "host dependent"
+
+[[disallowed-methods]]
+path = "std::io::stdin"
+reason = "no terminal io in core crates, use tracing"
+
+[[disallowed-methods]]
+path = "std::io::stdout"
+reason = "no terminal io in core crates, use tracing"
+
+[[disallowed-methods]]
+path = "std::io::stderr"
+reason = "no terminal io in core crates, use tracing"
+
+[[disallowed-methods]]
+path = "std::fs::read"
+reason = "use Env::fs"
+
+[[disallowed-methods]]
+path = "std::fs::read_to_string"
+reason = "use Env::fs"
+
+[[disallowed-methods]]
+path = "std::fs::write"
+reason = "use Env::fs"
+
+[[disallowed-methods]]
+path = "std::fs::read_dir"
+reason = "use Env::fs"
+
+[[disallowed-methods]]
+path = "std::fs::create_dir"
+reason = "use Env::fs"
+
+[[disallowed-methods]]
+path = "std::fs::create_dir_all"
+reason = "use Env::fs"
+
+[[disallowed-methods]]
+path = "std::fs::remove_file"
+reason = "use Env::fs"
+
+[[disallowed-methods]]
+path = "std::fs::remove_dir"
+reason = "use Env::fs"
+
+[[disallowed-methods]]
+path = "std::fs::remove_dir_all"
+reason = "use Env::fs"
+
+[[disallowed-methods]]
+path = "std::fs::rename"
+reason = "use Env::fs"
+
+[[disallowed-methods]]
+path = "std::fs::copy"
+reason = "use Env::fs"
+
+[[disallowed-methods]]
+path = "std::fs::metadata"
+reason = "use Env::fs"
+
+[[disallowed-methods]]
+path = "std::fs::symlink_metadata"
+reason = "use Env::fs"
+
+[[disallowed-methods]]
+path = "std::fs::canonicalize"
+reason = "use Env::fs"
+
+[[disallowed-methods]]
+path = "std::fs::hard_link"
+reason = "use Env::fs"
+
+[[disallowed-methods]]
+path = "std::fs::exists"
+reason = "use Env::fs"
+
+[[disallowed-methods]]
+path = "std::net::ToSocketAddrs::to_socket_addrs"
+reason = "dns lookup, use Env::net"
+
+[[disallowed-methods]]
+path = "std::sync::mpsc::channel"
+reason = "blocking recv deadlocks the sim executor, use tr_env::sync::mpsc"
+
+[[disallowed-methods]]
+path = "std::sync::mpsc::sync_channel"
+reason = "blocking, use tr_env::sync::mpsc"
+
+[[disallowed-methods]]
+path = "std::sync::Arc::as_ptr"
+reason = "addresses differ between runs, never hash or order by them"
+
+[[disallowed-methods]]
+path = "std::rc::Rc::as_ptr"
+reason = "addresses differ between runs"
+
+[[disallowed-methods]]
+path = "std::ptr::hash"
+reason = "addresses differ between runs"
+
+[[disallowed-types]]
+path = "std::time::Instant"
+reason = "use tr_env::Instant"
+
+[[disallowed-types]]
+path = "std::time::SystemTime"
+reason = "use tr_env::WallTime"
+
+[[disallowed-types]]
+path = "std::collections::HashMap"
+reason = "random iteration order, use tr_env::collections::HashMap"
+
+[[disallowed-types]]
+path = "std::collections::HashSet"
+reason = "random iteration order, use tr_env::collections::HashSet"
+
+[[disallowed-types]]
+path = "std::hash::RandomState"
+reason = "seeded from the os, use tr_env::collections::DetState"
+
+[[disallowed-types]]
+path = "std::hash::DefaultHasher"
+reason = "algorithm unspecified across releases, use tr_env::collections::DetState"
+
+[[disallowed-types]]
+path = "std::fs::File"
+reason = "use Env::fs"
+
+[[disallowed-types]]
+path = "std::fs::OpenOptions"
+reason = "use Env::fs"
+
+[[disallowed-types]]
+path = "std::net::TcpStream"
+reason = "use Env::net"
+
+[[disallowed-types]]
+path = "std::net::TcpListener"
+reason = "use Env::net"
+
+[[disallowed-types]]
+path = "std::net::UdpSocket"
+reason = "use Env::net"
+
+[[disallowed-types]]
+path = "std::sync::Condvar"
+reason = "blocks the sim executor"
+
+[[disallowed-types]]
+path = "std::sync::Barrier"
+reason = "blocks the sim executor"
+
+[[disallowed-types]]
+path = "std::sync::OnceLock"
+reason = "process-global state is shared by every simulated node"
+
+[[disallowed-types]]
+path = "std::sync::LazyLock"
+reason = "process-global state is shared by every simulated node"
+
+[[disallowed-types]]
+path = "std::thread::JoinHandle"
+reason = "use tr_env::JoinHandle"
+
+[[disallowed-macros]]
+path = "std::thread_local"
+reason = "per-thread state is shared by every simulated node"
+
+[[disallowed-macros]]
+path = "std::println"
+reason = "use tracing"
+
+[[disallowed-macros]]
+path = "std::print"
+reason = "use tracing"
+
+[[disallowed-macros]]
+path = "std::eprintln"
+reason = "use tracing"
+
+[[disallowed-macros]]
+path = "std::eprint"
+reason = "use tracing"
+
+[[disallowed-macros]]
+path = "std::dbg"
+reason = "use tracing"
+
