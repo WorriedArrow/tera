@@ -1,0 +1,15 @@
+[package]
+name = "tr_env"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+# [workspace.lints] without unsafe_code, which AGENTS.md allows in this crate.
+# `cargo xtask check` fails if this drifts from the workspace table.
+[lints.rust]
+
+[lints.clippy]
+undocumented_unsafe_blocks = "deny"
+disallowed_methods = "deny"
+disallowed_types = "deny"

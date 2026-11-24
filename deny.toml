@@ -1,0 +1,37 @@
+# license and source policy from AGENTS.md. which crates workspace members may
+# depend on directly is checked by `cargo xtask check` (xtask/src/deps.rs),
+# since cargo-deny's crate allowlist covers the whole graph.
+
+[graph]
+all-features = true
+
+[licenses]
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "ISC",
+    "Zlib",
+    "Unicode-3.0",
+    "Unicode-DFS-2016",
+    "MPL-2.0",
+]
+confidence-threshold = 0.93
+# the list is policy, not a record of what is in use today
+unused-allowed-license = "allow"
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+# path dependencies between workspace crates have no version
+allow-wildcard-paths = true
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
+allow-git = []
+
+[advisories]
+yanked = "deny"

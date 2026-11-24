@@ -1,0 +1,76 @@
+# determinism bans from AGENTS.md. clippy reads the nearest clippy.toml walking
+# up from each crate, so every crate gets these unless it has its own file.
+# tr_env, tr_pgwire, tr and xtask have their own (empty) files because they talk
+# to the real os. core crates must not, and `cargo xtask check` enforces that.
+
+disallowed-methods = [
+    { path = "std::time::Instant::now", reason = "use the clock from tr_env" },
+    { path = "std::time::SystemTime::now", reason = "use the clock from tr_env" },
+
+    { path = "std::thread::spawn", reason = "spawn tasks through tr_env" },
+    { path = "std::thread::scope", reason = "spawn tasks through tr_env" },
+    { path = "std::thread::Builder::spawn", reason = "spawn tasks through tr_env" },
+    { path = "std::thread::Builder::spawn_scoped", reason = "spawn tasks through tr_env" },
+    { path = "std::thread::sleep", reason = "sleep through tr_env" },
+    { path = "std::thread::park_timeout", reason = "sleep through tr_env" },
+
+    { path = "std::fs::read", reason = "use the disk from tr_env" },
+    { path = "std::fs::read_to_string", reason = "use the disk from tr_env" },
+    { path = "std::fs::write", reason = "use the disk from tr_env" },
+    { path = "std::fs::read_dir", reason = "use the disk from tr_env" },
+    { path = "std::fs::create_dir", reason = "use the disk from tr_env" },
+    { path = "std::fs::create_dir_all", reason = "use the disk from tr_env" },
+    { path = "std::fs::remove_file", reason = "use the disk from tr_env" },
+    { path = "std::fs::remove_dir", reason = "use the disk from tr_env" },
+    { path = "std::fs::remove_dir_all", reason = "use the disk from tr_env" },
+    { path = "std::fs::rename", reason = "use the disk from tr_env" },
+    { path = "std::fs::copy", reason = "use the disk from tr_env" },
+    { path = "std::fs::hard_link", reason = "use the disk from tr_env" },
+    { path = "std::fs::metadata", reason = "use the disk from tr_env" },
+    { path = "std::fs::symlink_metadata", reason = "use the disk from tr_env" },
+    { path = "std::fs::canonicalize", reason = "use the disk from tr_env" },
+    { path = "std::fs::read_link", reason = "use the disk from tr_env" },
+    { path = "std::fs::set_permissions", reason = "use the disk from tr_env" },
+    { path = "std::fs::exists", reason = "use the disk from tr_env" },
+    { path = "std::path::Path::exists", reason = "use the disk from tr_env" },
+    { path = "std::path::Path::try_exists", reason = "use the disk from tr_env" },
+    { path = "std::path::Path::is_file", reason = "use the disk from tr_env" },
+    { path = "std::path::Path::is_dir", reason = "use the disk from tr_env" },
+    { path = "std::path::Path::is_symlink", reason = "use the disk from tr_env" },
+    { path = "std::path::Path::metadata", reason = "use the disk from tr_env" },
+    { path = "std::path::Path::symlink_metadata", reason = "use the disk from tr_env" },
+    { path = "std::path::Path::canonicalize", reason = "use the disk from tr_env" },
+    { path = "std::path::Path::read_link", reason = "use the disk from tr_env" },
+    { path = "std::path::Path::read_dir", reason = "use the disk from tr_env" },
+
+    { path = "std::net::ToSocketAddrs::to_socket_addrs", reason = "use the network from tr_env" },
+
+    { path = "std::env::var", reason = "pass configuration in explicitly" },
+    { path = "std::env::var_os", reason = "pass configuration in explicitly" },
+    { path = "std::env::vars", reason = "pass configuration in explicitly" },
+    { path = "std::env::vars_os", reason = "pass configuration in explicitly" },
+    { path = "std::env::set_var", reason = "pass configuration in explicitly" },
+    { path = "std::env::remove_var", reason = "pass configuration in explicitly" },
+
+    { path = "std::collections::HashMap::new", reason = "seeds from os randomness, use tr_env::HashMap" },
+    { path = "std::collections::HashMap::with_capacity", reason = "seeds from os randomness, use tr_env::HashMap" },
+    { path = "std::collections::HashSet::new", reason = "seeds from os randomness, use tr_env::HashSet" },
+    { path = "std::collections::HashSet::with_capacity", reason = "seeds from os randomness, use tr_env::HashSet" },
+    { path = "std::collections::hash_map::RandomState::new", reason = "seeds from os randomness, use tr_env::FixedState" },
+]
+
+disallowed-types = [
+    { path = "std::fs::File", reason = "use the disk from tr_env" },
+    { path = "std::fs::OpenOptions", reason = "use the disk from tr_env" },
+
+    { path = "std::net::TcpStream", reason = "use the network from tr_env" },
+    { path = "std::net::TcpListener", reason = "use the network from tr_env" },
+    { path = "std::net::UdpSocket", reason = "use the network from tr_env" },
+
+    # the std maps default their hasher to RandomState, so banning the types
+    # outright is the only way to catch a defaulted hasher. the tr_env aliases
+    # resolve to their own definitions and are not caught.
+    { path = "std::collections::HashMap", reason = "default hasher seeds from os randomness, use tr_env::HashMap" },
+    { path = "std::collections::HashSet", reason = "default hasher seeds from os randomness, use tr_env::HashSet" },
+    { path = "std::collections::hash_map::RandomState", reason = "seeds from os randomness, use tr_env::FixedState" },
+]
