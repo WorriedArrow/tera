@@ -1,0 +1,3 @@
+# replaces the root clippy.toml for this crate, which talks to the real os and
+# so is exempt from the determinism bans there. copy any other setting added to
+# the root file into this one.

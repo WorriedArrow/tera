@@ -1,0 +1,38 @@
+[workspace]
+resolver = "3"
+members = [
+    "crates/tr_env",
+    "crates/tr_sim",
+    "crates/tr_check",
+    "crates/tr_storage",
+    "crates/tr_mvcc",
+    "crates/tr_raft",
+    "crates/tr_kv",
+    "crates/tr_sql_parser",
+    "crates/tr_sql",
+    "crates/tr_opt",
+    "crates/tr_exec",
+    "crates/tr_pgwire",
+    "crates/tr",
+    "xtask",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+publish = false
+
+[workspace.dependencies]
+clap = { version = "4.5", default-features = false, features = ["std", "derive", "help", "usage", "error-context"] }
+
+# tr_storage, tr_exec and tr_env can't inherit this table because unsafe_code is
+# forbid here. they copy it without that line, and `cargo xtask check` fails if
+# the copies drift.
+[workspace.lints.rust]
+unsafe_code = "forbid"
+
+[workspace.lints.clippy]
+undocumented_unsafe_blocks = "deny"
+disallowed_methods = "deny"
+disallowed_types = "deny"
